@@ -1,9 +1,9 @@
 {
     "Group": "xCue",
-    "Name": "TestMod",
-    "Main": "me.xcue.mod.TestMod",
-    "Version": "0.0.2",
-    "Description": "Hytale mod in Kotlin!",
+    "Name": "Hylib",
+    "Main": "me.xcue.hylib.Hylib",
+    "Version": "26.0.0",
+    "Description": "This mod is a public library that will be used in all of my Hytale plugins.",
     "Authors": [
         {
             "Name": "xcue"
@@ -18,5 +18,5 @@
         
     },
     "DisabledByDefault": false,
-    "IncludesAssetPack": true
+    "IncludesAssetPack": false
 }

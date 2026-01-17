@@ -29,7 +29,6 @@ class SyncInteractionChainsPacketListener : PacketWatcher {
             val heldItem = player.inventory.itemInHand
 
             for (item in updates) {
-                println(item.interactionType)
                 when (item.interactionType) {
                     InteractionType.Use -> HytaleServer.get().eventBus.dispatchFor(PlayerUseEvent::class.java).dispatch(PlayerUseEvent(storeRef, player))
                     InteractionType.Primary -> HytaleServer.get().eventBus.dispatchFor(PlayerLeftClickEvent::class.java).dispatch(PlayerLeftClickEvent(storeRef, player, heldItem))

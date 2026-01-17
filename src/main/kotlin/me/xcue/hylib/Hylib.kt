@@ -13,7 +13,7 @@ import me.xcue.hylib.lib.services.packets.PacketWatcherService
 class Hylib(init: JavaPluginInit) : JavaPlugin(init) {
     companion object {
         val LOGGER: HytaleLogger = HytaleLogger.forEnclosingClass()
-        private val packetService = PacketWatcherService()
+        private val packetService = PacketWatcherService(LOGGER)
     }
 
     init {
@@ -32,7 +32,7 @@ class Hylib(init: JavaPluginInit) : JavaPlugin(init) {
         // Add all watchers
         packetService.addWatcher(SyncInteractionChainsPacketListener())
 
-        LOGGER.atInfo().log("PacketWatcherService now listening...")
+        packetService.start()
     }
 }
 

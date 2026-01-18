@@ -2,7 +2,7 @@
     "Group": "xcue",
     "Name": "Hylib",
     "Main": "me.xcue.hylib.Hylib",
-    "Version": "26.0.0",
+    "Version": "26.0.1",
     "Description": "This mod is a public library that will be used in all of my Hytale plugins.",
     "Authors": [
         {

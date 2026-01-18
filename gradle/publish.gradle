@@ -89,6 +89,10 @@ publishing {
     }
 }
 
+tasks.jreleaserDeploy {
+    dependsOn tasks.build
+}
+
 tasks.withType(Jar).configureEach {
     it.archiveBaseName.set("hylib")
 }

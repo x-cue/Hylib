@@ -30,9 +30,9 @@ class SyncInteractionChainsPacketListener : PacketWatcher {
 
             for (item in updates) {
                 when (item.interactionType) {
-                    InteractionType.Use -> HytaleServer.get().eventBus.dispatchFor(PlayerUseEvent::class.java).dispatch(PlayerUseEvent(storeRef, player))
-                    InteractionType.Primary -> HytaleServer.get().eventBus.dispatchFor(PlayerLeftClickEvent::class.java).dispatch(PlayerLeftClickEvent(storeRef, player, heldItem))
-                    InteractionType.Secondary -> HytaleServer.get().eventBus.dispatchFor(PlayerRightClickEvent::class.java).dispatch(PlayerRightClickEvent(storeRef, player, heldItem))
+                    InteractionType.Use -> HytaleServer.get().eventBus.dispatchFor(PlayerUseEvent::class.java).dispatch(PlayerUseEvent(storeRef, player, item))
+                    InteractionType.Primary -> HytaleServer.get().eventBus.dispatchFor(PlayerLeftClickEvent::class.java).dispatch(PlayerLeftClickEvent(storeRef, player, heldItem, item))
+                    InteractionType.Secondary -> HytaleServer.get().eventBus.dispatchFor(PlayerRightClickEvent::class.java).dispatch(PlayerRightClickEvent(storeRef, player, heldItem, item))
                     else -> continue
                 }
             }

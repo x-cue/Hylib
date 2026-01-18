@@ -1,0 +1,122 @@
+//
+//id 'signing'
+//id 'org.jreleaser' version '1.22.0'
+//}
+//apply from: "gradle/publish.gradle"
+
+def stagingDir = file('build/staging-deploy')
+def ver = project.version
+def stagingDirFull = file("build/staging-deploy/me/xcue/hylib/" + ver)
+// -------------------- JReleaser Config --------------------
+jreleaser {
+    project {
+        java.groupId = 'me.xcue'
+        java.artifactId = 'hylib'
+        version = ver
+        authors = ['xcue']
+        license = 'MIT'
+        links {
+            homepage = 'https://xcue.me'
+        }
+        inceptionYear = '2026'
+    }
+
+    // Deploy section
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    active = 'ALWAYS'
+                    stagingRepository(stagingDir.absolutePath)
+                }
+            }
+
+            publishing {
+
+            }
+        }
+    }
+
+    signing {
+        pgp {
+            active = 'ALWAYS'
+            armored = true
+        }
+    }
+
+    release {
+        github {
+            name = "Hylib"
+            token = "DUMMY_TOKEN"
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            groupId = 'me.xcue'
+            artifactId = 'hylib'
+            version = ver
+
+            pom {
+                name = 'hylib'
+                description = 'Utility Library for Hytale'
+                url = 'https://xcue.me'
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'xcue'
+                        name = 'xcue'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/x-cue/Hylib'
+                }
+            }
+        }
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    it.archiveBaseName.set("hylib")
+}
+
+tasks.register("copyPom", Copy) {
+    dependsOn tasks.generatePomFileForMavenJavaPublication
+
+    stagingDirFull.mkdirs()
+
+    from "build/publications/mavenJava/pom-default.xml"
+    into stagingDirFull
+    rename { "hylib-${project.version}.pom" }
+}
+
+tasks.register("copyArtifacts", Copy) {
+    dependsOn tasks.copyPom
+
+    from "build/libs"
+    into stagingDirFull
+}
+
+tasks.named("build") {
+    finalizedBy "copyArtifacts"
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+
+
